@@ -26,8 +26,13 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Playwright browsers
+      - name: Install Playwright browser
         run: playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Run tests
-        run: pytest -v --browser=${{ matrix.browser }}
+      - name: Run smoke tests on pull request
+        if: github.event_name == 'pull_request'
+        run: pytest -v -m smoke --browser=${{ matrix.browser }}
+
+      - name: Run regression tests on main
+        if: github.event_name == 'push'
+        run: pytest -v -m regression --browser=${{ matrix.browser }}
