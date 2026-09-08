@@ -31,8 +31,17 @@ jobs:
 
       - name: Run smoke tests on pull request
         if: github.event_name == 'pull_request'
-        run: pytest -v -m smoke --browser=${{ matrix.browser }}
+        run: pytest -v -m smoke --browser=${{ matrix.browser }} --screenshot=only-on-failure --tracing=retain-on-failure
 
       - name: Run regression tests on main
         if: github.event_name == 'push'
-        run: pytest -v -m regression --browser=${{ matrix.browser }}
+        run: pytest -v -m regression --browser=${{ matrix.browser }} --screenshot=only-on-failure --tracing=retain-on-failure
+
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 7
+          
