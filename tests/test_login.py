@@ -15,7 +15,7 @@ def test_valid_login(login_page):
 
     inventory_page = InventoryPage(login_page.page)
 
-    expect(inventory_page.page_title).to_have_text("Products")
+    expect(inventory_page.page_title).to_have_text("Failed")
 
 
 @pytest.mark.regression
