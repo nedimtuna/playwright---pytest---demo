@@ -1,3 +1,5 @@
+import os
+
 import requests
 
 
@@ -5,6 +7,13 @@ class ApiClient:
     def __init__(self, base_url):
         self.base_url = base_url.rstrip("/")
         self.session = requests.Session()
+
+        api_key = os.getenv("REQRES_API_KEY")
+
+        if api_key:
+            self.session.headers.update({
+                "x-api-key": api_key
+            })
 
     def get(self, endpoint):
         return self.session.get(
@@ -21,6 +30,13 @@ class ApiClient:
 
     def put(self, endpoint, payload):
         return self.session.put(
+            self._build_url(endpoint),
+            json=payload,
+            timeout=10,
+        )
+
+    def patch(self, endpoint, payload):
+        return self.session.patch(
             self._build_url(endpoint),
             json=payload,
             timeout=10,
