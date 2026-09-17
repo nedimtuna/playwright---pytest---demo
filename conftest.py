@@ -1,5 +1,7 @@
 import pytest
 
+from api.api_client import ApiClient
+from config.settings import ENVIRONMENTS, API_ENVIRONMENTS
 from pages.login_page import LoginPage
 from config.settings import ENVIRONMENTS
 from data.test_data import STANDARD_USER, VALID_PASSWORD
@@ -23,6 +25,17 @@ def login_page(page, environment_url):
 def authenticated_inventory_page(login_page):
     login_page.login(STANDARD_USER, VALID_PASSWORD)
     return InventoryPage(login_page.page)
+
+
+@pytest.fixture(scope="session")
+def api_base_url(request):
+    env = request.config.getoption("--env")
+    return API_ENVIRONMENTS[env]
+
+
+@pytest.fixture(scope="session")
+def api_client(api_base_url):
+    return ApiClient(api_base_url)
 
 
 def pytest_addoption(parser):

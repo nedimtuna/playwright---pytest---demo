@@ -37,4 +37,3 @@ def test_locked_user(login_page):
 
     expect(login_page.error_message).to_contain_text("locked out")
 
-# CI smoke test validation
