@@ -1,4 +1,10 @@
-from data.test_data import STANDARD_USER, VALID_PASSWORD, INVALID_PASSWORD, WRONG_USER
+from data.test_data import (
+    INVALID_PASSWORD,
+    STANDARD_USER,
+    VALID_PASSWORD,
+    WRONG_USER,
+)
+
 
 INVALID_LOGIN_SCENARIOS = [
     ("invalid_password", STANDARD_USER, INVALID_PASSWORD),

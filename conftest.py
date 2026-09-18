@@ -3,7 +3,6 @@ import pytest
 from api.api_client import ApiClient
 from config.settings import ENVIRONMENTS, API_ENVIRONMENTS
 from pages.login_page import LoginPage
-from config.settings import ENVIRONMENTS
 from data.test_data import STANDARD_USER, VALID_PASSWORD
 from pages.inventory_page import InventoryPage
 
