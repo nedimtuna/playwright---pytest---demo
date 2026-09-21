@@ -33,10 +33,9 @@ jobs:
         if: github.event_name == 'pull_request'
         run: pytest -v -m smoke --browser=${{ matrix.browser }} --screenshot=only-on-failure --tracing=retain-on-failure --html=reports/ui-${{ matrix.browser }}-report.html --self-contained-html
 
-      - name: Run regression tests on main
+      - name: Run full UI suite on main
         if: github.event_name == 'push'
-        run: pytest -v -m regression --browser=${{ matrix.browser }} --screenshot=only-on-failure --tracing=retain-on-failure --html=reports/ui-${{ matrix.browser }}-report.html --self-contained-html
-
+        run: pytest -v tests --ignore=tests/api --browser=${{ matrix.browser }} --screenshot=only-on-failure --tracing=retain-on-failure --html=reports/ui-${{ matrix.browser }}-report.html --self-contained-html
       - name: Upload HTML test report
         if: always()
         uses: actions/upload-artifact@v4
